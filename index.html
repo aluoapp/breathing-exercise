@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathing Relaxation Exercise - Mindfulness & Stress Relief</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Interactive breathing exercise tool for stress relief, anxiety management, and mindfulness practice. Features guided breathing patterns and relaxation techniques.">
+    <meta name="keywords" content="breathing exercise, relaxation technique, stress relief, mindfulness, meditation, anxiety relief, breathing pattern, mental health, wellness app, breathing visualization">
+    <meta name="author" content="Your Name">
+    
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="Breathing Relaxation Exercise - Mindfulness & Stress Relief">
+    <meta property="og:description" content="Interactive breathing exercise tool for stress relief, anxiety management, and mindfulness practice.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://breathing-exercise.aluo.app">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Breathing Relaxation Exercise">
+    <meta name="twitter:description" content="Interactive breathing exercise tool for stress relief and mindfulness practice">
+    
+    <!-- Canonical URL -->
+    <meta rel="canonical" href="https://breathing-exercise.aluo.app">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center p-4">
+    <div class="relative w-full max-w-md aspect-square">
+        <div class="absolute inset-[15%] backdrop-blur-xl bg-white/5 rounded-full"></div>
+        
+        <div id="breathCircle" class="absolute inset-[15%] bg-gradient-to-br from-cyan-500/30 to-purple-500/30 rounded-full transform transition-transform duration-[4000ms] ease-in-out blur-sm">
+            <div class="absolute inset-0 backdrop-blur-sm rounded-full border border-white/10"></div>
+        </div>
+
+        <div id="controls" class="fixed bottom-8 right-8 flex gap-4 transition-opacity duration-300 opacity-100">
+            <button id="startBtn" class="px-6 py-2 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-colors flex items-center gap-2">
+                <img src="https://unpkg.com/lucide-static@latest/icons/play.svg" class="w-5 h-5 text-white" alt="Start">
+                <span class="text-white">Start</span>
+            </button>
+            <button id="settingsBtn" class="p-2 rounded-full bg-white/10 backdrop-blur-md hover:bg-white/20 transition-colors">
+                <img src="https://unpkg.com/lucide-static@latest/icons/settings.svg" class="w-5 h-5 text-white" alt="Settings">
+            </button>
+        </div>
+
+        <script>
+            const breathCircle = document.getElementById('breathCircle');
+            const startBtn = document.getElementById('startBtn');
+            const controls = document.getElementById('controls');
+            let hideTimeout;
+            let isBreathing = false;  // Add this line to declare the variable
+
+            controls.addEventListener('mouseenter', () => {
+                clearTimeout(hideTimeout);
+                controls.style.opacity = '1';
+            });
+
+            controls.addEventListener('mouseleave', () => {
+                if (isBreathing) {
+                    hideTimeout = setTimeout(() => {
+                        controls.style.opacity = '0';
+                    }, 1000);
+                }
+            });
+
+            function toggleBreathing() {
+                isBreathing = !isBreathing;
+                if (isBreathing) {
+                    startBtn.querySelector('img').src = 'https://unpkg.com/lucide-static@latest/icons/pause.svg';
+                    startBtn.querySelector('span').textContent = 'Stop';
+                    breathe();
+                    hideTimeout = setTimeout(() => {
+                        controls.style.opacity = '0';
+                    }, 1000);
+                } else {
+                    startBtn.querySelector('img').src = 'https://unpkg.com/lucide-static@latest/icons/play.svg';
+                    startBtn.querySelector('span').textContent = 'Start';
+                    breathCircle.style.transform = 'scale(1)';
+                    clearTimeout(hideTimeout);
+                    controls.style.opacity = '1';
+                }
+            }
+
+            function breathe() {
+                if (!isBreathing) return;
+                breathCircle.style.transform = 'scale(2.0)';  
+                setTimeout(() => {
+                    if (!isBreathing) return;
+                    breathCircle.style.transform = 'scale(1)';
+                    setTimeout(() => {
+                        if (isBreathing) breathe();
+                    }, 4000);
+                }, 4000);
+            }
+
+            startBtn.addEventListener('click', toggleBreathing);
+        </script>
+</body>
+</html>
